@@ -1,0 +1,11 @@
+Nostromo_n50 - support for Belkin's Nostromo n50 speedpad
+
+Note: Install tools prior to use (the nostromo_config and nostromo_daemon
+rely on each other.)
+
+Requires FLTK 1.0.x from http://www.fltk.org
+
+Usual configure/make/make install steps to build/install.
+
+Comments/suggestions/fixes welcome to trithemius@sponheim.org.
+

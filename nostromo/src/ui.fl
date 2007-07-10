@@ -1,0 +1,595 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0104 
+header_name {.h} 
+code_name {.cxx}
+decl {\#include "nost_data.h"} {} 
+
+decl {\#include "ui_support.h"} {} 
+
+Function {} {open
+} {
+  Fl_Window main_window {
+    label {Nostromo Config}
+    callback {save(); shutdown();} open selected
+    xywh {796 192 280 440} type Double resizable visible
+  } {
+    Fl_Box key_mappings_box {
+      label {Key Mappings}
+      xywh {10 105 265 320} box BORDER_FRAME color 17 align 1
+    }
+    Fl_Button {key_buttons[0]} {
+      label 1
+      callback {set_current_key(0);}
+      xywh {20 115 25 25}
+    }
+    Fl_Button {key_buttons[1]} {
+      label 2
+      callback {set_current_key(1);}
+      xywh {45 115 25 25}
+    }
+    Fl_Button {key_buttons[2]} {
+      label 3
+      callback {set_current_key(2);}
+      xywh {70 115 25 25}
+    }
+    Fl_Button {key_buttons[3]} {
+      label 4
+      callback {set_current_key(3);}
+      xywh {95 115 25 25}
+    }
+    Fl_Button {key_buttons[4]} {
+      label 5
+      callback {set_current_key(4);}
+      xywh {120 115 25 25}
+    }
+    Fl_Button {key_buttons[5]} {
+      label 6
+      callback {set_current_key(5);}
+      xywh {20 140 25 25}
+    }
+    Fl_Button {key_buttons[6]} {
+      label 7
+      callback {set_current_key(6);}
+      xywh {45 140 25 25}
+    }
+    Fl_Button {key_buttons[7]} {
+      label 8
+      callback {set_current_key(7);}
+      xywh {70 140 25 25}
+    }
+    Fl_Button {key_buttons[8]} {
+      label 9
+      callback {set_current_key(8);}
+      xywh {95 140 25 25}
+    }
+    Fl_Button {key_buttons[9]} {
+      label 10
+      callback {set_current_key(9);}
+      xywh {120 140 25 25}
+    }
+    Fl_Button {key_buttons[10]} {
+      callback {set_current_key(10);}
+      xywh {210 140 15 15}
+    }
+    Fl_Button {key_buttons[13]} {
+      callback {set_current_key(13);}
+      xywh {195 155 15 15}
+    }
+    Fl_Button {key_buttons[12]} {
+      callback {set_current_key(12);}
+      xywh {225 155 15 15}
+    }
+    Fl_Button {key_buttons[11]} {
+      callback {set_current_key(11);}
+      xywh {210 170 15 15}
+    }
+    Fl_Button set_key_mapping_button {
+      label Set
+      callback {create_key_map();}
+      xywh {20 365 50 25} deactivate
+    }
+    Fl_Choice configuration {
+      label {Current Configuration}
+      callback {set_current_configuration(o->value());} open
+      xywh {5 50 265 25} box UP_BOX down_box DOWN_BOX align 5 when 1
+    } {}
+    Fl_Input key_mapping_name_input {
+      label {Key Name}
+      callback {change_key_mapping_name(o->value(), nost_cfg->current_config, current_key);}
+      xywh {20 210 245 25} align 5 when 1
+    }
+    Fl_Choice key_mapping_type_choice {
+      callback {set_current_key_mapping_type((int)(long long)menu_key_mapping_type_choice[o->value()].user_data());}
+      xywh {20 335 245 25} down_box BORDER_BOX when 3
+    } {
+      menuitem {} {
+        label {Press and hold all keys}
+        user_data SINGLE_KEY
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Press and release keys in sequence}
+        user_data MULTI_KEY
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Normal Shift}
+        user_data NORMAL_SHIFT
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Normal Lock}
+        user_data NORMAL_LOCK
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Blue Shift}
+        user_data BLUE_SHIFT
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Blue Lock}
+        user_data BLUE_LOCK
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Green Shift}
+        user_data GREEN_SHIFT
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Green Lock}
+        user_data GREEN_LOCK
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Red Shift}
+        user_data RED_SHIFT
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Red Lock}
+        user_data RED_LOCK
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Shift key}
+        user_data SHIFT_KEY
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Control key}
+        user_data CONTROL_KEY
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label {Alt key}
+        user_data ALT_KEY
+        xywh {0 0 100 20}
+      }
+    }
+    Fl_Choice mode_choice {
+      label Mode
+      callback {set_current_mode(o->value());}
+      xywh {120 365 145 25} down_box BORDER_BOX when 3 deactivate
+    } {
+      menuitem {} {
+        label Normal
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label Blue
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label Green
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label Red
+        xywh {0 0 100 20}
+      }
+    }
+    Fl_Browser key_browser {
+      callback {if(key_browser->value() && current_keystroke == -1) {
+   edit_keystroke_delay(key_browser->value());
+}}
+      tooltip {Click on a keystroke to edit its delay value.} xywh {20 240 245 90} type Select when 3
+    }
+    Fl_Menu_Bar {} {open
+      xywh {0 0 280 25}
+    } {
+      submenu {} {
+        label {&Configs} open
+        xywh {0 0 100 20}
+      } {
+        menuitem {} {
+          label {&New Configuration}
+          callback {make_new_configuration();}
+          xywh {0 0 100 20}
+        }
+        menuitem {} {
+          label {&Rename Current}
+          callback {rename_current_configuration();}
+          xywh {0 0 100 20}
+        }
+        menuitem {} {
+          label {&Delete Current}
+          callback {delete_current_configuration();}
+          xywh {0 0 100 20} divider
+        }
+        menuitem {} {
+          label {&Save}
+          callback {save();}
+          xywh {0 0 100 20} shortcut 0xff1b
+        }
+        menuitem {} {
+          label {Save && &Close}
+          callback {save();
+shutdown();}
+          xywh {10 10 100 20} shortcut 0xff1b
+        }
+      }
+      submenu {} {
+        label {&Options} open
+        xywh {0 0 100 20}
+      } {
+        menuitem {} {
+          label {&Networking}
+          callback {options_networking();}
+          xywh {0 0 100 20}
+        }
+      }
+      submenu {} {
+        label {&Help} open
+        xywh {0 0 100 20}
+      } {
+        menuitem {} {
+          label {&About}
+          callback {help_about();}
+          xywh {0 0 100 20}
+        }
+      }
+    }
+    Fl_Button {key_buttons[14]} {
+      label 11
+      callback {set_current_key(14);}
+      xywh {20 165 25 25}
+    }
+    Fl_Button {key_buttons[15]} {
+      label 12
+      callback {set_current_key(15);}
+      xywh {45 165 25 25}
+    }
+    Fl_Button {key_buttons[16]} {
+      label 13
+      callback {set_current_key(16);}
+      xywh {70 165 25 25}
+    }
+    Fl_Button {key_buttons[17]} {
+      label 14
+      callback {set_current_key(17);}
+      xywh {95 165 25 25}
+    }
+    Fl_Button {key_buttons[18]} {
+      label 15
+      callback {set_current_key(18);}
+      xywh {235 175 25 25}
+    }
+    Fl_Button {key_buttons[19]} {
+      callback {set_current_key(19);}
+      xywh {235 115 15 15} box ROUND_UP_BOX down_box ROUND_DOWN_BOX color 90 selection_color 90
+    }
+    Fl_Button {key_buttons[20]} {
+      callback {set_current_key(20);}
+      xywh {170 110 20 20}
+    }
+    Fl_Button {key_buttons[21]} {
+      callback {set_current_key(21);}
+      xywh {170 130 20 20}
+    }
+    Fl_Button {key_buttons[22]} {
+      callback {set_current_key(22);}
+      xywh {170 150 20 20}
+    }
+    Fl_Roller {} {
+      xywh {150 115 20 50}
+    }
+    Fl_Check_Button key_repeat_check_button {
+      label {Repeat every}
+      callback {if(o->value()) {
+   key_repeat_delay_input->activate();
+} else {
+   key_repeat_delay_input->deactivate();
+}
+
+change_key_repeat_flag(o->value(), nost_cfg->current_config, current_key);}
+      xywh {20 395 115 25} down_box DOWN_BOX when 1
+    }
+    Fl_Value_Input key_repeat_delay_input {
+      label ms
+      callback {change_key_repeat_delay(o->value(), nost_cfg->current_config, current_key);}
+      xywh {135 395 80 25} align 8
+    }
+  }
+  code {startup();} {}
+} 
+
+Function {make_new_configuration()} {return_type void
+} {
+  Fl_Window new_config_window {
+    label {Create New Configuration} open
+    xywh {585 422 205 190} type Double resizable modal visible
+  } {
+    Fl_Input new_config_name {
+      label {New configuration name:}
+      xywh {10 25 185 25} align 5
+    }
+    Fl_Button {} {
+      label Cancel
+      xywh {105 155 85 25}
+    }
+    Fl_Choice new_config_choice {
+      label {Based on Configuration:} open
+      xywh {10 75 185 25} down_box BORDER_BOX align 5
+    } {}
+    Fl_Return_Button {} {
+      label OK
+      callback {/* Slap out a new configuration */
+add_new_configuration(new_config_name->value(), 
+                      (model_type)nost_model_choice->value(),
+                      (new_config_choice->size() > 2 ? new_config_choice->value() : -1));
+
+/* Kill off the window */
+delete new_config_window;}
+      xywh {15 155 85 25}
+    }
+    Fl_Choice nost_model_choice {
+      label {Nostromo Model:} open
+      xywh {10 120 185 25} down_box BORDER_BOX align 5
+    } {
+      menuitem {} {
+        label n50
+        xywh {0 0 100 20}
+      }
+      menuitem {} {
+        label n52
+        xywh {0 0 100 20}
+      }
+    }
+  }
+  code {Fl_Menu_Item* mnu = new Fl_Menu_Item[nost_cfg->num_configs + 2];
+memset(mnu, 0, sizeof(Fl_Menu_Item) * (nost_cfg->num_configs + 2));
+memcpy(mnu, configuration_list, sizeof(Fl_Menu_Item) * nost_cfg->num_configs);
+mnu[nost_cfg->num_configs].label("(none)");
+new_config_choice->menu(mnu);
+/* Default to (none) */
+new_config_choice->value(nost_cfg->num_configs);
+new_config_window->show();} {}
+} 
+
+Function {help_about()} {open return_type void
+} {
+  Fl_Window about_window {
+    label {About nostromo_config} open
+    xywh {775 660 370 285} type Double align 4 resizable modal visible
+  } {
+    Fl_Button {} {
+      label OK
+      callback {delete o->parent();}
+      xywh {170 255 45 25}
+    }
+    Fl_Box {} {
+      label {Nostromo n50 Configuration Tools}
+      xywh {5 10 360 25} align 144
+    }
+    Fl_Box {} {
+      label {Paul Bohme <paul@@bohme.org>}
+      xywh {5 35 360 25} align 144
+    }
+    Fl_Box version_box {
+      xywh {5 60 360 25} align 144
+    }
+    Fl_Help_View gpl_disclaimer {
+      xywh {5 90 360 160}
+    }
+  }
+  code {version_box->label("Version "VERSION);
+gpl_disclaimer->value(
+"&copy;2003-2005 Paul Bohme <a href=\\"mailto:paul@bohme.org\\">paul@bohme.org</a> and others."
+"<p>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version."
+"<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details."
+);
+about_window->show();} {}
+} 
+
+Function {rename_current_configuration()} {return_type void
+} {
+  Fl_Window rename_configuration_window {
+    label {Rename Configuration} open
+    xywh {861 763 300 100} type Double hide resizable modal
+  } {
+    Fl_Input renamed_name_input {
+      label {New configuration name:}
+      xywh {10 30 280 25} align 5
+    }
+    Fl_Button {} {
+      label OK
+      callback {rename_current_configuration_done(renamed_name_input->value());
+
+/* Kill off the window */
+delete rename_configuration_window;}
+      xywh {10 65 85 25}
+    }
+    Fl_Button {} {
+      label Cancel
+      callback {delete rename_configuration_window;}
+      xywh {105 65 85 25}
+    }
+  }
+  code {rename_configuration_window->show();} {}
+} 
+
+Function {delete_current_configuration()} {return_type void
+} {
+  Fl_Window confirm_delete_window {
+    label {Confirm Delete} open
+    xywh {861 853 405 120} type Double visible
+  } {
+    Fl_Box {} {
+      label {Confirm delete of this configuration?}
+      xywh {10 20 340 30} align 16
+    }
+    Fl_Button {} {
+      label {Yes, nuke it!}
+      callback {delete_current_configuration_done();
+delete confirm_delete_window;}
+      xywh {25 80 100 25}
+    }
+    Fl_Return_Button {} {
+      label {No!  I didn't really mean it...}
+      callback {delete confirm_delete_window;}
+      xywh {130 80 255 25}
+    }
+  }
+  code {confirm_delete_window->show();} {}
+} 
+
+Function {create_key_map()} {open return_type void
+} {
+  Fl_Window create_key_map_window {
+    label {Enter New Keys} open
+    xywh {453 416 145 240} type Double resizable
+    code0 {\#include "NewMapWindow.h"}
+    class NewMapWindow modal visible
+  } {
+    Fl_Browser create_key_map_browser {
+      label {Keys/Mouse Clicks}
+      xywh {5 20 135 185} align 5
+    }
+    Fl_Box done_box {
+      label Done
+      xywh {5 210 135 25} box UP_BOX
+    }
+  }
+  code {nost_cfg->configs[nost_cfg->current_config].keys[current_mode][current_key].key_count = 0;
+create_key_map_window->show();
+create_key_map_window->take_focus();} {}
+} 
+
+Function {options_networking()} {open return_type void
+} {
+  Fl_Window options_networking_window {
+    label Networking
+    xywh {534 674 235 155} type Double resizable modal visible
+  } {
+    Fl_Check_Button enable_networking_checkbox {
+      label {Enable Networking}
+      callback {if(!enable_networking_checkbox->value()) {
+  port_input->deactivate();
+  server_input->deactivate();
+} else {
+  port_input->activate();
+  server_input->activate();
+}}
+      tooltip {Enable transfer of Nostromo traffic across a network} xywh {10 10 25 25} down_box DOWN_BOX when 1
+    }
+    Fl_Input port_input {
+      label Port
+      tooltip {Enter numeric port for server to listen on, in the range 1024-65535} xywh {55 40 165 25}
+    }
+    Fl_Input server_input {
+      label Server
+      tooltip {The server host name or IP address} xywh {55 70 165 25}
+    }
+    Fl_Return_Button {} {
+      label OK
+      callback {nost_cfg->network_enabled = enable_networking_checkbox->value();
+if(nost_cfg->network_enabled &&
+   (!port_input->value() || atoi(port_input->value()) == 0 ||
+    !server_input->value() || strlen(server_input->value()) == 0)) {
+  return;
+}
+nost_cfg->port = atoi(port_input->value());
+if(nost_cfg->server) {
+  free(nost_cfg->server);
+}
+nost_cfg->server = strdup(server_input->value());
+delete o->parent();}
+      xywh {50 125 60 25}
+    }
+    Fl_Button {} {
+      label Cancel
+      callback {delete o->parent();}
+      xywh {120 125 60 25}
+    }
+  }
+  code {char portstr[10];
+enable_networking_checkbox->value(nost_cfg->network_enabled);
+sprintf(portstr, "%d", nost_cfg->port);
+port_input->value(portstr);
+server_input->value(nost_cfg->server);
+if(!enable_networking_checkbox->value()) {
+  port_input->deactivate();
+  server_input->deactivate();
+} else {
+  port_input->activate();
+  server_input->activate();
+}
+options_networking_window->show();} {}
+} 
+
+Function {edit_keystroke_delay(int keystroke)} {open return_type void
+} {
+  Fl_Window edit_keystroke_delay_window {open
+    xywh {995 695 255 100} type Double modal visible
+  } {
+    Fl_Input keystroke_delay_input {
+      label {Change delay before pressing key:}
+      tooltip {Enter value in ms (1/1000ths of a second)} xywh {10 30 235 25} align 5
+    }
+    Fl_Return_Button edit_keystroke_delay_ok_button {
+      label OK
+      callback {int delay = 0;
+char tmp[256];
+char tmpdelay[256];
+/* Fetch the value */
+if(keystroke_delay_input->value()) {
+   delay = atoi(keystroke_delay_input->value());
+}
+nost_cfg->configs[nost_cfg->current_config].keys[current_mode][current_key].data[current_keystroke].delay = delay;
+
+/* Put it into the browser for display */
+strncpy(tmp, key_browser->text(current_keystroke + 1), sizeof(tmp) - 1);
+if(strrchr(tmp, '\\t')) {
+   *strrchr(tmp, '\\t') = 0;
+}
+snprintf(tmpdelay, sizeof(tmpdelay), "\\t%dms", delay);
+strcat(tmp, tmpdelay);
+key_browser->text(current_keystroke + 1, tmp);
+key_browser->redraw();
+
+/* Store it back in our data again */
+if(nost_cfg->configs[nost_cfg->current_config].keys[current_mode][current_key].data[current_keystroke].display) {
+   free(nost_cfg->configs[nost_cfg->current_config].keys[current_mode][current_key].data[current_keystroke].display);
+}
+nost_cfg->configs[nost_cfg->current_config].keys[current_mode][current_key].data[current_keystroke].display = strdup(tmp);
+
+/* Clean up */
+current_keystroke = -1;
+delete o->parent();}
+      xywh {40 70 85 25}
+    }
+    Fl_Button keystroke_delay_cancel_button {
+      label Cancel
+      callback {delete o->parent();}
+      xywh {130 70 85 25}
+    }
+  }
+  code {char tmp[32];
+current_keystroke = keystroke - 1;
+snprintf(tmp, sizeof(tmp), "%d", nost_cfg->configs[nost_cfg->current_config].keys[current_mode][current_key].data[current_keystroke].delay);
+printf("Using keystroke:%d [%s]\\n", keystroke, tmp);
+keystroke_delay_input->value(tmp);
+edit_keystroke_delay_window->show();} {}
+} 

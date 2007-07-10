@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 1.0.3  (Linux)">
+	<META NAME="CREATED" CONTENT="20030513;16413300">
+	<META NAME="CHANGED" CONTENT="20030519;17151400">
+	<STYLE>
+	<!--
+		@page { margin: 2cm }
+		TD P { margin-bottom: 0.21cm }
+		H1 { margin-bottom: 0.21cm }
+		H1.western { font-family: "Albany", sans-serif; font-size: 16pt }
+		H1.cjk { font-size: 16pt }
+		H1.ctl { font-size: 16pt }
+		P { margin-bottom: 0.21cm }
+		H2 { margin-bottom: 0.21cm }
+		H2.western { font-family: "Albany", sans-serif; font-size: 14pt; font-style: italic }
+		H2.cjk { font-size: 14pt; font-style: italic }
+		H2.ctl { font-size: 14pt; font-style: italic }
+		H3 { margin-bottom: 0.21cm }
+		H3.western { font-family: "Albany", sans-serif }
+		TH P { margin-bottom: 0.21cm; font-style: italic }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US">
+<H1 CLASS="western">Introduction</H1>
+<P STYLE="margin-bottom: 0cm">The nostromo_n50 configuration tools
+are designed to support the excellent Belkin Nostromo n50 speedpad
+for playing games under the X Window system. The tools consist of a
+configuration GUI and a daemon process. The GUI is used to configure
+sets of key mappings and select the current map, and the daemon
+translates Nostromo key hits to X events.</P>
+<P STYLE="margin-bottom: 0cm">The tools support multiple
+configurations, so you can have different mappings for the same game
+or completely different mappings for different games. All you have to
+do is select the configuration you want from the GUI.</P>
+<H2 CLASS="western">Nostromo Modes</H2>
+<P>The Nostromo n50 (as you may have noticed) has three lights
+towards the front left corner of the device. These can be used to
+flag different 'modes' of operation for the device. The easiest way
+to handle the modes is to think of the lights representing four
+different modes &ndash; one for each color light and 'normal' mode in
+which no lights are on. Buttons can be mapped to 'shift' into a mode
+&ndash; where the device flips modes only while the button is
+pressed, then returns to its previous mode. Buttons can also be
+mapped to 'lock' a mode, in which the device is flipped to a
+different mode. The lights will be toggled to always reflect which
+mode the device is in. The modes can be useful in more complex
+configurations where entirely different sets of keys are needed.</P>
+<P STYLE="margin-bottom: 0cm; border: 1px solid #000000; padding: 0.05cm; page-break-before: auto; page-break-after: auto">
+Note: When using the modes always remember to map not only keys that
+change to a different mode (normal -&gt; red) but also keys to get
+back, otherwise you can easily get stuck in a mode with no way to get
+back to normal!</P>
+<H1 CLASS="western">The Configuration GUI</H1>
+<P><IMG SRC="main_window.png" NAME="Graphic3" ALIGN=LEFT WIDTH=228 HEIGHT=428 BORDER=0><BR CLEAR=LEFT>The
+main bit that will greet you is the configuration GUI. It's a happy
+little bundle of buttons that lets you set up the way you want the
+Nostromo to behave. The configuration GUI stores its information in a
+file called <FONT FACE="Courier, monospace">.nostromorc_n50</FONT> in
+your home directory.</P>
+<P>The major pieces are the configuration selection, the key mappings
+and at the bottom the Exit button. 
+</P>
+<H2 CLASS="western">The Configuration Selection</H2>
+<P>The Nostromo n50 tools support multiple configurations, this
+control selects the current configuration from those defined. When
+you exit the GUI this is stored as the Current Configuration.</P>
+<H2 CLASS="western">Managing Multiple Configurations</H2>
+<H3 CLASS="western">Setting the Current Configuration</H3>
+<P>Simply select a configuration in the &ldquo;Current Configuration&rdquo;
+list to set that as the current configuration for configuration or
+use by the daemon.</P>
+<P>Pressing the <B><I>Apply </I></B><SPAN STYLE="font-weight: medium"><SPAN STYLE="font-style: normal">button
+saves the configuration and signals the nostromo_daemon process to
+reread the configuration file.</SPAN></SPAN></P>
+<P STYLE="font-style: normal; font-weight: medium">The
+nostromo_daemon process is launched or signalled to reread its
+configuration when <B><I>Save &amp; Exit</I></B><SPAN STYLE="font-weight: medium"><SPAN STYLE="font-style: normal">
+is pressed to exit the configuration GUI.</SPAN></SPAN></P>
+<H3 CLASS="western"><IMG SRC="new_dialog.png" NAME="Graphic1" ALIGN=LEFT WIDTH=213 HEIGHT=178 BORDER=0>Creating
+a configuration</H3>
+<P>To create a configuration, select the <I>New configuration</I>
+option from the <I>Configs</I> menu. If you already have a
+configuration that you want to use as a starting point, you can
+select it and the newly created configuration will be a copy.</P>
+<H3 CLASS="western">Renaming a configuration</H3>
+<P>If you select <I>Rename configuration</I> from the <I>Configs</I>
+menu the app will prompt you for a new name for the configuration.
+This is a good time to correct that embarrassing spelling mistake
+that inevitably creeps in.</P>
+<H3 CLASS="western">Deleting a configuration</H3>
+<P>Select <I>Delete Configuration</I> from the <I>Configs</I> menu to
+delete a configuration. <B><I>Caution: This is permanent.</I></B></P>
+<H2 CLASS="western">Key Mappings</H2>
+<P>There are buttons for each of the 10 main Nostromo keys, plus the
+thumb pad. Selecting any of the buttons brings up the current details
+for that key.</P>
+<H3 CLASS="western">Key Name</H3>
+<P>Each key can have a custom label associated it, to remind you what
+the key is intended to do.</P>
+<P>Below that is the list of keys mapped to the currently selected
+key. Using the Set button allows you to configure the keys that map
+to the current button.</P>
+<H3 CLASS="western">Key Type</H3>
+<P>Since there are a number of strange things that may need to be
+mapped to a Nostromo key (I usually map the Shift key to one of the
+thumbpad positions) there is a Key Type list to select what the key
+is for:</P>
+<TABLE WIDTH=100% BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0 STYLE="page-break-inside: auto">
+	<COL WIDTH=61*>
+	<COL WIDTH=195*>
+	<THEAD>
+		<TR VALIGN=TOP>
+			<TH WIDTH=24%>
+				<P>Key Type</P>
+			</TH>
+			<TH WIDTH=76%>
+				<P>Meaning</P>
+			</TH>
+		</TR>
+	</THEAD>
+	<TBODY>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>All keys at once</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Press and hold all mapped keys until Nostrom button is
+				released</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Keys in sequence</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Press and release all mapped keys in sequence when the
+				Nostromo button is pressed</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Normal Shift</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Mode shift to normal, returning to previous mode when Nostromo
+				button released</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Normal Lock</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Set Nostromo to Normal mode</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Blue Shift</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Mode shift to blue, returning to previous mode when Nostromo
+				button released</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Blue Lock</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Set Nostromo to Blue mode</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Green Shift</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Mode shift to green, returning to previous mode when Nostromo
+				button released</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Green Lock</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Set Nostromo to Green mode</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Red Shift</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Mode shift to red, returning to previous mode when Nostromo
+				button released</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Red Lock</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Set Nostromo to Red mode</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Shift Key</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Hold the Shift key as long as the Nostromo button is pressed</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Control Key</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Hold the Control key as long as the Nostromo button is pressed</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD WIDTH=24%>
+				<P>Alt Key</P>
+			</TD>
+			<TD WIDTH=76%>
+				<P>Hold the Alt key as long as the Nostromo button is pressed</P>
+			</TD>
+		</TR>
+	</TBODY>
+</TABLE>
+<H2 CLASS="western"><IMG SRC="color_menu.png" NAME="Graphic2" ALIGN=LEFT WIDTH=236 HEIGHT=145 BORDER=0>Selecting
+a Mode</H2>
+<P>Near the bottom right corner of the GUI is a Mode list. Selecting
+one of the modes from this list switches the key mappings to match
+the selected mode. [I've actually never found the modes useful, but
+they may prove their worth yet.]</P>
+<P><BR><BR>
+</P>
+</BODY>
+</HTML>

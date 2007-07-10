@@ -1,0 +1,12 @@
+
+1.1
+- Added nostromo_remote to be able to push keystrokes across a network
+- Smarter about finding where the device file is
+
+1.01
+Um, yeah.  Good idea to load the configuration at startup instead of just
+waiting for a signal to tell us to do it.  How embarrassing.
+
+1.0
+Initial release
+
