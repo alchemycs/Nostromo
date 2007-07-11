@@ -70,6 +70,7 @@ void save_configs(const char* fname, const nost_data* data)
                 xmlNewProp(e_key, BAD_CAST "repeat", nstr(data->configs[c].keys[m][k].repeat));
                 xmlNewProp(e_key, BAD_CAST "delay", nstr(data->configs[c].keys[m][k].repeat_delay));
                 xmlNewProp(e_key, BAD_CAST "num", nstr(k));
+                xmlNewProp(e_key, BAD_CAST "remote", nstr(data->configs[c].keys[m][k].remote));
                 for(s = 0; s < data->configs[c].keys[m][k].key_count; s++) {
                     e_stroke = xmlNewChild(e_key, NULL, BAD_CAST "stroke", NULL);
                     xmlNewProp(e_stroke, BAD_CAST "type", nstr((int)data->configs[c].keys[m][k].data[s].type));

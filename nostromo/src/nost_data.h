@@ -111,6 +111,7 @@ typedef struct
     nost_key_stroke_data data[MAX_KEYSTROKES]; /**< Keystrokes mapped */
     int repeat;         /**< Whether to repeat when key is held down */
     int repeat_delay;   /**< Amount of time to delay between keystrokes. */
+    int remote;         /**< Whether to ship this to the remote node or not */
 
     int pressed;        /**< Used by daemon to eat extra events when n52 keys held */
 } nost_key_config_data;

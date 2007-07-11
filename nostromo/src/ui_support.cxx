@@ -284,6 +284,8 @@ void set_current_key(int key)
         } else {
             set_key_mapping_button->deactivate();
         }
+        key_remote_check_button->value(nost_cfg->configs[nost_cfg->current_config].keys[current_mode][key].remote);
+        key_remote_check_button->activate();
 
         key_mapping_name_input->value(nost_cfg->configs[nost_cfg->current_config].keys[current_mode][key].name);
         key_mapping_name_input->activate();
@@ -313,6 +315,7 @@ void set_current_key(int key)
         key_mapping_type_choice->deactivate();
         key_repeat_check_button->deactivate();
         key_repeat_delay_input->deactivate();
+        key_remote_check_button->deactivate();
     }
 
     set_buttons();
@@ -367,6 +370,14 @@ void change_key_repeat_delay(int value, int cfg, int key)
 void change_key_repeat_flag(int value, int cfg, int key)
 {
     nost_cfg->configs[cfg].keys[current_mode][key].repeat = value;
+}
+
+/**
+ * Handle changes to the key repeat check button.
+ **/
+void change_key_remote_flag(int value, int cfg, int key)
+{
+    nost_cfg->configs[cfg].keys[current_mode][key].remote = value;
 }
 
 /**

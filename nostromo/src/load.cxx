@@ -152,6 +152,7 @@ nost_data* load_configs(const char* fname)
                 get_int_attr(e_key, "type", (int*)&data->configs[c].keys[m][k].type);
                 get_int_attr(e_key, "repeat", (int*)&data->configs[c].keys[m][k].repeat);
                 get_int_attr(e_key, "delay", (int*)&data->configs[c].keys[m][k].repeat_delay);
+                get_int_attr(e_key, "remote", (int*)&data->configs[c].keys[m][k].remote);
 
                 for(s = 0, e_stroke = e_key->children; e_stroke; e_stroke = e_stroke->next) {
                     if(strcmp((char*)e_stroke->name, "stroke")) {

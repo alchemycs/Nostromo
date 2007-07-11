@@ -112,10 +112,10 @@ int open_readers();
  * Send a fake key hit, either to the local server
  * or the remote socket.
  **/
-void send_key(int key, int flags)
+void send_key(int key, int flags, int remote)
 {
     key_stroke_type type = STROKE_KEY;
-    if(sockfd > 0) {
+    if(sockfd > 0 && remote) {
         printf("Sending key hit to remote\n");
         if(send(sockfd, &type, sizeof(type), 0) < 0 ||
            send(sockfd, &key, sizeof(key), 0) < 0 ||
@@ -175,6 +175,7 @@ typedef struct timer_entry {
     int arg;
     int flag;
     int delay;
+    int remote;
 } timer_entry;
 
 /**
@@ -185,7 +186,7 @@ timer_entry* timer_list = NULL;
 /**
  * Make something happen sometime in the future.
  **/
-void add_timer(timer_type type, int id, int arg, int flag, int delay)
+void add_timer(timer_type type, int id, int arg, int flag, int delay, int remote)
 {
   timer_entry *e = NULL;
   timer_entry *l = NULL;
@@ -204,6 +205,7 @@ void add_timer(timer_type type, int id, int arg, int flag, int delay)
     e->flag = flag;
     e->delay = delay;
     e->id = id;
+    e->remote = remote;
 
     /* Add to timer list */
     pthread_mutex_lock(&timer_mtx);
@@ -312,7 +314,7 @@ void* timer_thread(void*)
 
                 case TIMER_PRESS_KEY:
                     printf("TIMER_PRESS_KEY:  %d (flag:%d)\n", t->arg, t->flag);
-                    send_key(t->arg, t->flag);
+                    send_key(t->arg, t->flag, t->remote);
                     break;
 
                 case TIMER_MOUSE_CLICK:
@@ -328,31 +330,31 @@ void* timer_thread(void*)
 /**
  * Set a key to be pressed after some delay (or 0 for now)
  **/
-void enqueue_key(int id, int key, int flags, int delay) {
-    add_timer(TIMER_PRESS_KEY, id, key, flags, delay);
+void enqueue_key(int id, int key, int flags, int delay, int remote) {
+    add_timer(TIMER_PRESS_KEY, id, key, flags, delay, remote);
 }
 
 /**
  * Set a key to be pressed after some delay (or 0 for now)
  **/
-void enqueue_mouse_click(int id, int button, int flags, int delay) {
-    add_timer(TIMER_MOUSE_CLICK, id, button, flags, delay);
+void enqueue_mouse_click(int id, int button, int flags, int delay, int remote) {
+    add_timer(TIMER_MOUSE_CLICK, id, button, flags, delay, remote);
 }
 
 /**
  * Send the 'modifier' keycodes, e.g. shift, control, alt.
  **/
-void enqueue_modifiers(int key, int state, int pressed, int delay)
+void enqueue_modifiers(int key, int state, int pressed, int delay, int remote)
 {
     /* Press necessary modifiers */
     if(state & ShiftMask) {
-        enqueue_key(key, shift_keycode, pressed, delay);
+        enqueue_key(key, shift_keycode, pressed, delay, remote);
     }
     if(state & ControlMask) {
-        enqueue_key(key, control_keycode, pressed, delay);
+        enqueue_key(key, control_keycode, pressed, delay, remote);
     }
     if(state & Mod1Mask) {
-        enqueue_key(key, meta_keycode, pressed, delay);
+        enqueue_key(key, meta_keycode, pressed, delay, remote);
     }
 }
 
@@ -418,13 +420,13 @@ void send_key_sequence(nostromo_state* nost, int key, int release, int from_time
     switch(cfg->keys[current_mode][key].type) {
         case SINGLE_KEY:
             for(n = 0; n < cfg->keys[current_mode][key].key_count; n++) {
-                enqueue_modifiers(id, cfg->keys[current_mode][key].data[n].state, 1, cfg->keys[current_mode][key].data[n].delay);
+                enqueue_modifiers(id, cfg->keys[current_mode][key].data[n].state, 1, cfg->keys[current_mode][key].data[n].delay, cfg->keys[current_mode][key].remote);
                 if(cfg->keys[current_mode][key].data[n].type == STROKE_KEY) {
-                    enqueue_key(id, cfg->keys[current_mode][key].data[n].code, !release, cfg->keys[current_mode][key].data[n].delay);
+                    enqueue_key(id, cfg->keys[current_mode][key].data[n].code, !release, cfg->keys[current_mode][key].data[n].delay, cfg->keys[current_mode][key].remote);
                 } else if(cfg->keys[current_mode][key].data[n].type == STROKE_MOUSE) {
-                    enqueue_mouse_click(id, cfg->keys[current_mode][key].data[n].code, !release, cfg->keys[current_mode][key].data[n].delay);
+                    enqueue_mouse_click(id, cfg->keys[current_mode][key].data[n].code, !release, cfg->keys[current_mode][key].data[n].delay, cfg->keys[current_mode][key].remote);
                 }
-                enqueue_modifiers(id, cfg->keys[current_mode][key].data[n].state, 0, cfg->keys[current_mode][key].data[n].delay);
+                enqueue_modifiers(id, cfg->keys[current_mode][key].data[n].state, 0, cfg->keys[current_mode][key].data[n].delay, cfg->keys[current_mode][key].remote);
             }
             break;
         case MULTI_KEY:
@@ -433,20 +435,20 @@ void send_key_sequence(nostromo_state* nost, int key, int release, int from_time
                 int delay = 0;
                 for(n = 0; n < cfg->keys[current_mode][key].key_count; n++) {
                     /* Note: The small 'fudge' on each delay forces them into the right order in the timing queue. */
-                    enqueue_modifiers(id, cfg->keys[current_mode][key].data[n].state, 1, delay + cfg->keys[current_mode][key].data[n].delay);
+                    enqueue_modifiers(id, cfg->keys[current_mode][key].data[n].state, 1, delay + cfg->keys[current_mode][key].data[n].delay, cfg->keys[current_mode][key].remote);
                     if(cfg->keys[current_mode][key].data[n].type == STROKE_KEY) {
-                        enqueue_key(id, cfg->keys[current_mode][key].data[n].code, 1, delay + cfg->keys[current_mode][key].data[n].delay + 1);
-                        enqueue_key(id, cfg->keys[current_mode][key].data[n].code, 0, delay + cfg->keys[current_mode][key].data[n].delay + 2);
+                        enqueue_key(id, cfg->keys[current_mode][key].data[n].code, 1, delay + cfg->keys[current_mode][key].data[n].delay + 1, cfg->keys[current_mode][key].remote);
+                        enqueue_key(id, cfg->keys[current_mode][key].data[n].code, 0, delay + cfg->keys[current_mode][key].data[n].delay + 2, cfg->keys[current_mode][key].remote);
                     } else if(cfg->keys[current_mode][key].data[n].type == STROKE_MOUSE) {
-                        enqueue_mouse_click(id, cfg->keys[current_mode][key].data[n].code, 1, cfg->keys[current_mode][key].data[n].delay + 3);
-                        enqueue_mouse_click(id, cfg->keys[current_mode][key].data[n].code, 0, cfg->keys[current_mode][key].data[n].delay + 4);
+                        enqueue_mouse_click(id, cfg->keys[current_mode][key].data[n].code, 1, cfg->keys[current_mode][key].data[n].delay + 3, cfg->keys[current_mode][key].remote);
+                        enqueue_mouse_click(id, cfg->keys[current_mode][key].data[n].code, 0, cfg->keys[current_mode][key].data[n].delay + 4, cfg->keys[current_mode][key].remote);
                     }
-                    enqueue_modifiers(id, cfg->keys[current_mode][key].data[n].state, 0, delay + cfg->keys[current_mode][key].data[n].delay + 5);
+                    enqueue_modifiers(id, cfg->keys[current_mode][key].data[n].state, 0, delay + cfg->keys[current_mode][key].data[n].delay + 5, cfg->keys[current_mode][key].remote);
                     delay += cfg->keys[current_mode][key].data[n].delay + 10;
                 }
 
                 if(cfg->keys[current_mode][key].repeat) {
-                    add_timer(TIMER_REPEAT_KEY, key, key, (int)(long long)nost, cfg->keys[current_mode][key].repeat_delay + delay);
+                    add_timer(TIMER_REPEAT_KEY, key, key, (int)(long long)nost, cfg->keys[current_mode][key].repeat_delay + delay, cfg->keys[current_mode][key].remote);
                 }
             } else {
                 if(cfg->keys[current_mode][key].repeat) {
@@ -500,14 +502,14 @@ void send_key_sequence(nostromo_state* nost, int key, int release, int from_time
             break;
         case SHIFT_KEY:
             printf("shift_key: %d\n", (!release ? 1 : 0));
-            enqueue_key(shift_keycode, shift_keycode, !release, 0);
+            enqueue_key(shift_keycode, shift_keycode, !release, 0, cfg->keys[current_mode][key].remote);
             break;
         case CONTROL_KEY:
             printf("control_key: %d\n", (!release ? 1 : 0));
-            enqueue_key(control_keycode, control_keycode, !release, 0);
+            enqueue_key(control_keycode, control_keycode, !release, 0, cfg->keys[current_mode][key].remote);
             break;
         case ALT_KEY:
-            enqueue_key(meta_keycode, meta_keycode, !release, 0);
+            enqueue_key(meta_keycode, meta_keycode, !release, 0, cfg->keys[current_mode][key].remote);
             break;
     }
 

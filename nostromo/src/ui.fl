@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0104 
+version 1.0107 
 header_name {.h} 
 code_name {.cxx}
 decl {\#include "nost_data.h"} {} 
@@ -10,12 +10,12 @@ Function {} {open
 } {
   Fl_Window main_window {
     label {Nostromo Config}
-    callback {save(); shutdown();} open selected
-    xywh {796 192 280 440} type Double resizable visible
+    callback {save(); shutdown();} open
+    xywh {707 181 280 465} type Double resizable visible
   } {
     Fl_Box key_mappings_box {
       label {Key Mappings}
-      xywh {10 105 265 320} box BORDER_FRAME color 17 align 1
+      xywh {10 105 265 350} box BORDER_FRAME color 17 align 1
     }
     Fl_Button {key_buttons[0]} {
       label 1
@@ -102,67 +102,67 @@ Function {} {open
       callback {set_current_key_mapping_type((int)(long long)menu_key_mapping_type_choice[o->value()].user_data());}
       xywh {20 335 245 25} down_box BORDER_BOX when 3
     } {
-      menuitem {} {
+      MenuItem {} {
         label {Press and hold all keys}
         user_data SINGLE_KEY
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Press and release keys in sequence}
         user_data MULTI_KEY
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Normal Shift}
         user_data NORMAL_SHIFT
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Normal Lock}
         user_data NORMAL_LOCK
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Blue Shift}
         user_data BLUE_SHIFT
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Blue Lock}
         user_data BLUE_LOCK
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Green Shift}
         user_data GREEN_SHIFT
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Green Lock}
         user_data GREEN_LOCK
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Red Shift}
         user_data RED_SHIFT
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Red Lock}
         user_data RED_LOCK
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Shift key}
         user_data SHIFT_KEY
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Control key}
         user_data CONTROL_KEY
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label {Alt key}
         user_data ALT_KEY
         xywh {0 0 100 20}
@@ -173,19 +173,19 @@ Function {} {open
       callback {set_current_mode(o->value());}
       xywh {120 365 145 25} down_box BORDER_BOX when 3 deactivate
     } {
-      menuitem {} {
+      MenuItem {} {
         label Normal
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label Blue
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label Green
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label Red
         xywh {0 0 100 20}
       }
@@ -199,52 +199,52 @@ Function {} {open
     Fl_Menu_Bar {} {open
       xywh {0 0 280 25}
     } {
-      submenu {} {
+      Submenu {} {
         label {&Configs} open
         xywh {0 0 100 20}
       } {
-        menuitem {} {
+        MenuItem {} {
           label {&New Configuration}
           callback {make_new_configuration();}
           xywh {0 0 100 20}
         }
-        menuitem {} {
+        MenuItem {} {
           label {&Rename Current}
           callback {rename_current_configuration();}
           xywh {0 0 100 20}
         }
-        menuitem {} {
+        MenuItem {} {
           label {&Delete Current}
           callback {delete_current_configuration();}
           xywh {0 0 100 20} divider
         }
-        menuitem {} {
+        MenuItem {} {
           label {&Save}
           callback {save();}
           xywh {0 0 100 20} shortcut 0xff1b
         }
-        menuitem {} {
+        MenuItem {} {
           label {Save && &Close}
           callback {save();
 shutdown();}
           xywh {10 10 100 20} shortcut 0xff1b
         }
       }
-      submenu {} {
+      Submenu {} {
         label {&Options} open
         xywh {0 0 100 20}
       } {
-        menuitem {} {
+        MenuItem {} {
           label {&Networking}
           callback {options_networking();}
           xywh {0 0 100 20}
         }
       }
-      submenu {} {
+      Submenu {} {
         label {&Help} open
         xywh {0 0 100 20}
       } {
-        menuitem {} {
+        MenuItem {} {
           label {&About}
           callback {help_about();}
           xywh {0 0 100 20}
@@ -311,6 +311,11 @@ change_key_repeat_flag(o->value(), nost_cfg->current_config, current_key);}
       callback {change_key_repeat_delay(o->value(), nost_cfg->current_config, current_key);}
       xywh {135 395 80 25} align 8
     }
+    Fl_Check_Button key_remote_check_button {
+      label {Send to Remote}
+      callback {change_key_remote_flag(o->value(), nost_cfg->current_config, current_key);} selected
+      xywh {20 420 135 25} down_box DOWN_BOX
+    }
   }
   code {startup();} {}
 } 
@@ -348,11 +353,11 @@ delete new_config_window;}
       label {Nostromo Model:} open
       xywh {10 120 185 25} down_box BORDER_BOX align 5
     } {
-      menuitem {} {
+      MenuItem {} {
         label n50
         xywh {0 0 100 20}
       }
-      menuitem {} {
+      MenuItem {} {
         label n52
         xywh {0 0 100 20}
       }
@@ -380,7 +385,7 @@ Function {help_about()} {open return_type void
       xywh {170 255 45 25}
     }
     Fl_Box {} {
-      label {Nostromo n50 Configuration Tools}
+      label {Nostromo n50/n52 Configuration Tools}
       xywh {5 10 360 25} align 144
     }
     Fl_Box {} {
@@ -459,7 +464,7 @@ Function {create_key_map()} {open return_type void
 } {
   Fl_Window create_key_map_window {
     label {Enter New Keys} open
-    xywh {453 416 145 240} type Double resizable
+    xywh {560 147 145 240} type Double resizable
     code0 {\#include "NewMapWindow.h"}
     class NewMapWindow modal visible
   } {

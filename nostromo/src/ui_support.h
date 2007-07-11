@@ -34,6 +34,7 @@ extern void set_current_key(int index);
 extern void set_current_configuration(int cfg);
 extern void change_key_mapping_name(const char* txt, int cfg, int key);
 extern void change_key_repeat_flag(int value, int cfg, int key);
+extern void change_key_remote_flag(int value, int cfg, int key);
 extern void change_key_repeat_delay(int value, int cfg, int key);
 extern void set_current_key_mapping_type(int type);
 extern void set_current_mode(int type);

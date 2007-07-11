@@ -109,7 +109,7 @@ void load()
     int count, current, n;
     nost_data* oldcfg = all_cfg;
 
-    sprintf(fname, "%s/.nostromorc.n50", (pw ? pw->pw_dir : "."));
+    sprintf(fname, "%s/.nostromorc", (pw ? pw->pw_dir : "."));
     printf("Loading configs from %s\n", fname);
     all_cfg = load_configs(fname);
 }
