@@ -245,11 +245,12 @@ void add_timer(timer_type type, int id, int arg, int flag, int delay, int remote
  **/
 void remove_timer(int id)
 {
-    timer_entry *e = timer_list;
+    timer_entry *e = NULL;
     timer_entry *tmp = NULL;
     timer_entry *last = NULL;
 
     pthread_mutex_lock(&timer_mtx);
+    e = timer_list;
     while(e) {
         if(e->id == id) {
             if(e == timer_list) {
