@@ -403,7 +403,7 @@ void send_key_sequence(nostromo_state* nost, int key, int release, int from_time
         id = 0;
     }
 
-    printf("%d: %s(%p, %d, %d)\n", time(NULL), __FUNCTION__, nost, key, release);
+    printf("%ld: %s(%p, %d, %d)\n", time(NULL), __FUNCTION__, nost, key, release);
 
     if(release && last_mode != NULL_MODE) {
         switch(cfg->keys[last_mode][key].type) {
@@ -965,7 +965,7 @@ void ensure_singleton()
                 exit(0);
             } else {
                 syslog(LOG_INFO, "Removing stale pidfile.");
-                pidfd = open(PIDFILE, O_RDWR | O_CREAT | O_TRUNC);
+                pidfd = open(PIDFILE, O_RDWR | O_CREAT | O_TRUNC, 0600);
             }
         } else {
             syslog(LOG_INFO, "Unable to create file %s: %m", PIDFILE);
@@ -975,7 +975,9 @@ void ensure_singleton()
 
     /* Record our pid */
     pid = getpid();
-    write(pidfd, &pid, sizeof(pid));
+    if(write(pidfd, &pid, sizeof(pid)) != sizeof(pid)) {
+      syslog(LOG_ERR, "Failed to write pid");
+    }
     close(pidfd);
 }
 

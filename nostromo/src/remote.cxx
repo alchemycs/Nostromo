@@ -71,7 +71,7 @@ int ensure_singleton()
     if(pidfd < 0) {
         if(errno == EEXIST) {
             /* there's already a file, see if it's a valid process */
-            pidfd = open(PIDFILE, O_RDWR);
+            pidfd = open(PIDFILE, O_RDWR, 0600);
             if(pidfd < 0) {
                 fprintf(stderr, "Unable to open file in /tmp - do you own it?\n");
                 perror(PIDFILE);
@@ -87,7 +87,7 @@ int ensure_singleton()
                 exit(0);
             } else {
                 fprintf(stderr, "Removing stale pidfile.\n");
-                pidfd = open(PIDFILE, O_RDWR | O_CREAT | O_TRUNC);
+                pidfd = open(PIDFILE, O_RDWR | O_CREAT | O_TRUNC, 0600);
             }
         } else {
             fprintf(stderr, "Unable to create file in /tmp\n");
@@ -159,7 +159,9 @@ int main(int argc, char *argv[])
     display = XOpenDisplay(NULL);
 
     pid = getpid();
-    write(pidfd, &pid, sizeof(pid));
+    if(write(pidfd, &pid, sizeof(pid)) != sizeof(pid)) {
+      syslog(LOG_ERR, "Failed to write pid");
+    }
     close(pidfd);
 
     /* Do our thing */
